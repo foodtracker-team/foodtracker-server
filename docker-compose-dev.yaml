@@ -1,0 +1,15 @@
+version: '3.1'
+services:
+  dev-foodtracker-server:
+    restart: always
+    build:
+      context: .
+      dockerfile: .app-config/dev/Dockerfile
+    container_name: dev-foodtracker-server
+    volumes:
+    - /home/projects/dev-api.foodtracker.pl/static:/opt/static
+    networks:
+      - dev-network
+networks:
+  dev-network:
+    external: true

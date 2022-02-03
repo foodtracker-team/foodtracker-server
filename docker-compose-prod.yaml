@@ -1,0 +1,15 @@
+version: '3.1'
+services:
+  foodtracker-server:
+    restart: always
+    build:
+      context: .
+      dockerfile: .app-config/prod/Dockerfile
+    container_name: prod-foodtracker-server
+    volumes:
+      - /home/projects/api.foodtracker.pl/static:/opt/static
+    networks:
+      - foodtracker-network
+networks:
+  foodtracker-network:
+    external: true

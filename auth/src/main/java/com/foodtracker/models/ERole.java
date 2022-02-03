@@ -1,0 +1,12 @@
+package com.foodtracker.models;
+
+public enum ERole {
+  ROLE_USER,
+  ROLE_MODERATOR,
+  ROLE_ADMIN,
+
+  READ_CHAT_TECHNIC_ROOM,
+  HAS_CHAT_TECHNIC_ROOM,
+  READ_CHAT_BUSINESS_ROOM,
+  HAS_CHAT_BUSINESS_ROOM,
+}

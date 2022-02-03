@@ -1,0 +1,40 @@
+name: Production Deploy
+
+on:
+  push:
+    branches:
+      - 'master'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSHKEY }}
+          known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
+
+      - name: Adding Known Hosts
+        run: ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy with rsync
+        run: rsync -avz ./ ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/projects/api.foodtracker.pl/server/
+
+      - name: Execute SSH commmands on remote server
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: |
+            cd /home/projects/api.foodtracker.pl/server
+            docker stop prod-foodtracker-server
+            docker rm prod-foodtracker-server
+            docker-compose -f docker-compose-prod.yaml up -d --build
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          privateKey: ${{ secrets.SSHKEY}}
+
+
