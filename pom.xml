@@ -38,6 +38,7 @@
     <modules>
         <module>core</module>
         <module>auth</module>
+        <module>drive</module>
         <module>commons</module>
         <module>chat-service</module>
         <module>foodtracker</module>
